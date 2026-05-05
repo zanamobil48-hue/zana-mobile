@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ZANA MOBILE | ژمارە ئاسیا و کۆرەک</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Tahoma', 'Segoe UI', sans-serif;
+            background: linear-gradient(145deg, #0f172a 0%, #1e1b4b 100%);
+            padding: 24px 16px;
+            min-height: 100vh;
+        }
+
+        body.normal-bg {
+            background: linear-gradient(145deg, #0b2b40 0%, #0a1a2e 100%);
+        }
+        body.bronze-bg {
+            background: linear-gradient(145deg, #2e1a0b 0%, #2e1a0b 100%);
+        }
+
+        .container {
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(18px);
+            border-radius: 48px;
+            padding: 24px 28px;
+            margin-bottom: 32px;
+            text-align: center;
+            border: 1px solid rgba(255,215,0,0.2);
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.4);
+        }
+        .header h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #FFD966, #FFB347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .header p {
+            color: #b9c7d9;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .tab-btn {
+            background: rgba(20, 25, 40, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.25s ease;
+            font-family: inherit;
+            color: #eef2ff;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tab-btn.normal { background: rgba(0, 100, 148, 0.6); }
+        .tab-btn.bronze { background: rgba(139, 69, 19, 0.6); }
+        .tab-btn.asia { background: rgba(79, 42, 119, 0.7); }
+        .tab-btn.active {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 22px -10px rgba(0,0,0,0.5);
+            border-color: rgba(255,215,0,0.6);
+        }
+        .tab-btn.active.normal { background: #0077b6; }
+        .tab-btn.active.bronze { background: #b95f1a; }
+        .tab-btn.active.asia { background: #7c3aed; }
+
+        .tab-content { display: none; animation: fadeIn 0.35s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        .searchInput {
+            width: 100%;
+            padding: 16px 24px;
+            margin-bottom: 28px;
+            border: none;
+            border-radius: 70px;
+            font-size: 1.1rem;
+            background: #ffffffea;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            outline: none;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        .searchInput:focus {
+            transform: scale(1.01);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+        }
+
+        .cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .phone-card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 38px;
+            padding: 28px 22px;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            text-align: center;
+        }
+        .phone-card:hover {
+            transform: translateY(-6px);
+            background: white;
+            box-shadow: 0 30px 40px -16px black;
+        }
+
+        /* ژمارەکان - گەورەتر کراوە */
+        .phone-numbers {
+            font-size: 1.7rem;
+            font-weight: 800;
+            direction: ltr;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px dashed #e0e7ff;
+            word-break: break-word;
+            line-height: 1.5;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+        .phone-numbers span {
+            display: inline-block;
+        }
+        .phone-separator {
+            font-size: 1.4rem;
+            color: #94a3b8;
+        }
+
+        /* نرخ - گەورەتر کراوە */
+        .price {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 12px 0 16px;
+            background: linear-gradient(125deg, #b91c1c, #e11d48);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* وەسف - گەورەتر کراوە */
+        .description {
+            background: #f1f5f9;
+            padding: 12px 16px;
+            border-radius: 28px;
+            margin: 16px 0 20px;
+            font-size: 1rem;
+            color: #334155;
+            font-weight: 500;
+            line-height: 1.5;
+            border-right: 4px solid #7c3aed;
+        }
+
+        /* دوگمە - گەورەتر کراوە */
+        .wa-btn {
+            background: #25D366;
+            color: white;
+            text-decoration: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.2s;
+            box-shadow: 0 10px 18px -8px #1e9b4e;
+        }
+        .wa-btn:hover {
+            background: #128C7E;
+            transform: scale(1.02);
+        }
+
+        .phone-red { color: #d81b1b; }
+        .phone-blue { color: #1e4bd2; }
+        .phone-default { color: #004e7c; }
+
+        .loading, .error-msg {
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
+            padding: 40px;
+            border-radius: 50px;
+            color: white;
+            text-align: center;
+        }
+        .error-msg { background: #ffebee; color: #b71c1c; }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 22px;
+            padding-right: 16px;
+            border-right: 6px solid gold;
+            color: #fff4e0;
+        }
+
+        /* مۆبایل */
+        @media (max-width: 550px) {
+            .phone-numbers { font-size: 1.3rem; gap: 6px; }
+            .price { font-size: 1.8rem; }
+            .description { font-size: 0.9rem; }
+            .wa-btn { font-size: 1rem; padding: 10px 20px; }
+            .section-title { font-size: 1.3rem; }
+            .searchInput { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body class="asia-bg">
+
+<div class="container">
+    <div class="header">
+        <h1>✨ ZANA MOBILE</h1>
+        <p>نۆرماڵ · برۆنزی · ئاسیا و کۆرەک</p>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn normal active" id="tabNormalBtn">📱 نۆرماڵ</button>
+        <button class="tab-btn bronze" id="tabBronzeBtn">🥉 برۆنزی</button>
+        <button class="tab-btn asia" id="tabAsiaBtn">🌺 ئاسیا و کۆرەک</button>
+    </div>
+
+    <div id="normalTab" class="tab-content normal active">
+        <div class="section-title">📞 ژمارە نۆرماڵ</div>
+        <input type="text" id="searchNormal" class="searchInput" placeholder="🔍 گەڕان...">
+        <div id="normalContainer"><div class="loading">⏳ بارکردن...</div></div>
+    </div>
+
+    <div id="bronzeTab" class="tab-content bronze">
+        <div class="section-title">🏅 ژمارە برۆنزی</div>
+        <input type="text" id="searchBronze" class="searchInput" placeholder="🔍 گەڕان...">
+        <div id="bronzeContainer"><div class="loading">⏳ بارکردن...</div></div>
+    </div>
+
+    <div id="asiaTab" class="tab-content asia">
+        <div class="section-title">🌸 ژمارە ئاسیا و کۆرەک</div>
+        <input type="text" id="searchAsia" class="searchInput" placeholder="🔍 گەڕان لە نێو ژمارەکان...">
+        <div id="asiaContainer"><div class="loading">⏳ بارکردن...</div></div>
+    </div>
+</div>
+
+<script>
+    // ======================= دەستکاری =========================
+    const myWa = "9647705015252";
+    const SPREADSHEET_ID = "1RkGwtLZfZ_DaScAnFH9zKdDuAtO90NjZLCxTRBSdJNU";
+    const SHEET_GID = "0";
+    // ==========================================================
+
+    const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&gid=${SHEET_GID}`;
+    let normalNumbers = [];
+    let bronzeNumbers = [];
+    let asiaNumbers = [];
+
+    function getPhoneColor(phoneNumber) {
+        if (phoneNumber.startsWith('0770')) return 'phone-red';
+        if (phoneNumber.startsWith('0750')) return 'phone-blue';
+        return 'phone-default';
+    }
+
+    async function fetchAllNumbers() {
+        try {
+            const res = await fetch(SHEET_URL);
+            const txt = await res.text();
+            const jsonStart = txt.indexOf('(');
+            const jsonEnd = txt.lastIndexOf(')');
+            const jsonStr = txt.substring(jsonStart+1, jsonEnd);
+            const data = JSON.parse(jsonStr);
+            const rows = data.table.rows;
+
+            normalNumbers = [];
+            bronzeNumbers = [];
+            asiaNumbers = [];
+
+            for (let i=0; i<rows.length; i++) {
+                const row = rows[i];
+                if (!row.c) continue;
+
+                let phN = row.c[0]?.v, prN = row.c[1]?.v;
+                if(phN && prN && phN.toString().trim() !== "" && prN.toString().trim() !== "")
+                    normalNumbers.push([phN.toString().trim(), prN.toString().trim()]);
+
+                let phB = row.c[2]?.v, prB = row.c[3]?.v;
+                if(phB && prB && phB.toString().trim() !== "" && prB.toString().trim() !== "")
+                    bronzeNumbers.push([phB.toString().trim(), prB.toString().trim()]);
+
+                let phoneAsiaRaw = row.c[4]?.v;
+                let priceAsia = row.c[5]?.v;
+                let descAsia = row.c[6]?.v;
+                
+                if(phoneAsiaRaw && priceAsia && phoneAsiaRaw.toString().trim() !== "" && priceAsia.toString().trim() !== "") {
+                    let phonesArray = [];
+                    let phoneStr = phoneAsiaRaw.toString().trim();
+                    
+                    if(phoneStr.includes('\n')) {
+                        phonesArray = phoneStr.split('\n').map(p => p.trim()).filter(p => p !== "");
+                    } else if(phoneStr.includes(',')) {
+                        phonesArray = phoneStr.split(',').map(p => p.trim()).filter(p => p !== "");
+                    } else {
+                        phonesArray = [phoneStr];
+                    }
+                    
+                    if(phonesArray.length > 0) {
+                        asiaNumbers.push({
+                            phones: phonesArray,
+                            price: priceAsia.toString().trim(),
+                            description: descAsia ? descAsia.toString().trim() : "✨ ژمارەی تایبەت"
+                        });
+                    }
+                }
+            }
+
+            if(normalNumbers.length===0 && bronzeNumbers.length===0 && asiaNumbers.length===0)
+                showErrorAll("هیچ ژمارەیەک نەدۆزرایەوە.");
+            else {
+                renderSimpleCards(normalNumbers, "normalContainer", "searchNormal");
+                renderSimpleCards(bronzeNumbers, "bronzeContainer", "searchBronze");
+                renderAsiaCards(asiaNumbers, "asiaContainer", "searchAsia");
+            }
+        } catch(err) {
+            console.error(err);
+            showErrorAll("هەڵەی پەیوەندی بە شیتەوە.");
+        }
+    }
+
+    function renderSimpleCards(data, containerId, searchId) {
+        const container = document.getElementById(containerId);
+        if(!container) return;
+        if(data.length === 0) { container.innerHTML = `<div class="error-msg">⚠️ هیچ ژمارەیەک نییە</div>`; return; }
+        let html = '<div class="cards-list">';
+        for(let [phone, price] of data) {
+            const msg = `سڵاو، دەمەوێت ئەم ژمارەیە بکڕم: ${phone}`;
+            html += `
+                <div class="phone-card" data-phone="${phone}">
+                    <div class="phone-numbers"><span class="phone-default">📞 ${phone}</span></div>
+                    <div class="price">💰 ${price} دینار</div>
+                    <a href="https://wa.me/${myWa}?text=${encodeURIComponent(msg)}" class="wa-btn" target="_blank">💬 کڕین لە واتساپ</a>
+                </div>`;
+        }
+        html += '</div>';
+        container.innerHTML = html;
+        attachSearch(searchId, containerId);
+    }
+
+    function renderAsiaCards(data, containerId, searchId) {
+        const container = document.getElementById(containerId);
+        if(!container) return;
+        if(data.length === 0) { container.innerHTML = `<div class="error-msg">⚠️ هیچ ژمارەیەک نییە</div>`; return; }
+        let html = '<div class="cards-list">';
+        for(let item of data) {
+            const phonesHtml = item.phones.map(phone => {
+                const colorClass = getPhoneColor(phone);
+                return `<span class="${colorClass}">📞 ${phone}</span>`;
+            }).join('<span class="phone-separator"> ✦ </span>');
+            
+            const allPhonesText = item.phones.join(', ');
+            const msg = `سڵاو، دەمەوێت ئەم ژمارانە بکڕم: ${allPhonesText}`;
+            
+            html += `
+                <div class="phone-card" data-phones="${allPhonesText.replace(/"/g, '&quot;')}">
+                    <div class="phone-numbers">${phonesHtml}</div>
+                    <div class="price">💰 ${item.price} دینار</div>
+                    <div class="description">📝 ${item.description}</div>
+                    <a href="https://wa.me/${myWa}?text=${encodeURIComponent(msg)}" class="wa-btn" target="_blank">💬 کڕین لە واتساپ</a>
+                </div>`;
+        }
+        html += '</div>';
+        container.innerHTML = html;
+        attachSearch(searchId, containerId);
+    }
+
+    function attachSearch(searchInputId, containerId) {
+        const input = document.getElementById(searchInputId);
+        if(!input) return;
+        input.onkeyup = () => {
+            const filter = input.value.toUpperCase();
+            const cards = document.querySelectorAll(`#${containerId} .phone-card`);
+            cards.forEach(card => {
+                const val = card.getAttribute('data-phones') || card.getAttribute('data-phone') || '';
+                card.style.display = val.toUpperCase().includes(filter) ? '' : 'none';
+            });
+        };
+    }
+
+    function showErrorAll(msg) {
+        ["normalContainer","bronzeContainer","asiaContainer"].forEach(id => {
+            let el = document.getElementById(id);
+            if(el) el.innerHTML = `<div class="error-msg">⚠️ ${msg}</div>`;
+        });
+    }
+
+    function switchTab(tabName) {
+        const normalTab = document.getElementById('normalTab');
+        const bronzeTab = document.getElementById('bronzeTab');
+        const asiaTab = document.getElementById('asiaTab');
+        const normalBtn = document.getElementById('tabNormalBtn');
+        const bronzeBtn = document.getElementById('tabBronzeBtn');
+        const asiaBtn = document.getElementById('tabAsiaBtn');
+        
+        normalTab.classList.remove('active');
+        bronzeTab.classList.remove('active');
+        asiaTab.classList.remove('active');
+        normalBtn.classList.remove('active');
+        bronzeBtn.classList.remove('active');
+        asiaBtn.classList.remove('active');
+        
+        if(tabName === 'normal') {
+            normalTab.classList.add('active');
+            normalBtn.classList.add('active');
+            document.body.className = 'normal-bg';
+        } else if(tabName === 'bronze') {
+            bronzeTab.classList.add('active');
+            bronzeBtn.classList.add('active');
+            document.body.className = 'bronze-bg';
+        } else {
+            asiaTab.classList.add('active');
+            asiaBtn.classList.add('active');
+            document.body.className = 'asia-bg';
+        }
+    }
+
+    document.getElementById('tabNormalBtn').addEventListener('click', () => switchTab('normal'));
+    document.getElementById('tabBronzeBtn').addEventListener('click', () => switchTab('bronze'));
+    document.getElementById('tabAsiaBtn').addEventListener('click', () => switchTab('asia'));
+
+    fetchAllNumbers();
+</script>
+</body>
+</html>
